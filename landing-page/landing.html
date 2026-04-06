@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lakbay — Travel & Weather</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <link rel="stylesheet" href="landing.css" />
+  </head>
+  <body>
+
+    <!-- NAV -->
+    <nav class="nav" id="nav">
+      <div class="nav-left">
+        <span class="nav-wordmark">Lakbay</span>
+      </div>
+      <div class="nav-right">
+        <a class="nav-cta">
+          Get Started <i class="fa-solid fa-arrow-right" style="font-size: 0.7rem;"></i>
+        </a>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-bg" id="hero-bg"></div>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="hero-tag">
+          <span class="hero-tag-line"></span>
+          Filipino Travel & Weather Explorer
+        </div>
+        <h1 class="hero-h1">
+          Discover the<br />
+          Philippines — <em>live,<br />smart &amp; free.</em>
+        </h1>
+        <p class="hero-sub">
+          Tourist spots, real-time weather, air quality, and an AI guide — all in one clean app built for Filipino travelers.
+        </p>
+        <div class="hero-actions">
+          <a class="btn-hero-primary">
+            <i class="fa-solid fa-compass" style="font-size: 0.78rem;"></i>
+            Start Exploring
+          </a>
+          <a class="btn-hero-ghost" href="#intro">Learn More</a>
+        </div>
+      </div>
+      <div class="hero-scroll" id="hero-scroll">
+        Scroll <span class="scroll-line"></span>
+      </div>
+    </section>
+
+    <!-- INTRO -->
+    <section class="intro" id="intro">
+      <div class="intro-left reveal">
+        <div class="intro-label">About</div>
+        <h2 class="intro-h2">One app for every Filipino traveler</h2>
+      </div>
+      <div class="intro-right reveal d1">
+        <p class="intro-p">
+          Lakbay was built out of a simple frustration — having to juggle five different apps just to plan a day trip. Weather here, tourist spots there, a chatbot somewhere else.
+        </p>
+        <p class="intro-p">
+          Now it's all in one place. Search any city, get live conditions, browse tourist attractions, and ask an AI for local tips — in Tagalog or English.
+        </p>
+        <div class="stat-row">
+          <div class="stat">
+            <div class="stat-num">100<span>+</span></div>
+            <div class="stat-label">Places per city<br />discovered</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">5<span>★</span></div>
+            <div class="stat-label">Day forecast<br />every search</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">0<span>₱</span></div>
+            <div class="stat-label">Cost to use<br />completely free</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- IMAGE GRID -->
+    <div class="img-grid">
+      <div class="img-cell reveal">
+        <img src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=800&q=80" alt="Philippines beach" loading="lazy" />
+        <span class="img-cell-label">Palawan</span>
+      </div>
+      <div class="img-cell reveal d1">
+        <img src="https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=600&q=80" alt="Bohol" loading="lazy" />
+        <span class="img-cell-label">Bohol</span>
+      </div>
+      <div class="img-cell reveal d2">
+        <img src="https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=600&q=80" alt="Batad Rice Terraces" loading="lazy" />
+        <span class="img-cell-label">Batad</span>
+      </div>
+      <div class="img-cell reveal d2">
+        <img src="https://images.unsplash.com/photo-1598135753163-6167c1a1ad65?w=600&q=80" alt="Cebu" loading="lazy" />
+        <span class="img-cell-label">Cebu</span>
+      </div>
+      <div class="img-cell reveal d3">
+        <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&q=80" alt="Siargao" loading="lazy" />
+        <span class="img-cell-label">Siargao</span>
+      </div>
+    </div>
+
+    <!-- PULL QUOTE -->
+    <div class="pullquote">
+      <div class="pq-rule reveal"></div>
+      <p class="pq-text reveal d1">
+        "Travel is the only thing you buy that makes you <strong>richer</strong> — and now you don't have to buy five apps to do it."
+      </p>
+      <span class="pq-author reveal d2">— The idea behind Lakbay</span>
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <section class="how" id="how">
+      <div class="how-inner">
+        <div class="how-header">
+          <h2 class="how-h2 reveal">Three steps.<br />That's it.</h2>
+          <p class="how-p reveal d1">No account needed, no setup, no friction. Open the app and you're already traveling — the right way.</p>
+        </div>
+        <div class="how-steps">
+          <div class="how-step reveal">
+            <div class="how-step-top">
+              <div class="how-step-n">01</div>
+            </div>
+            <div class="how-step-title">Search a city</div>
+            <div class="how-step-desc">Type any Philippine city or let the app detect your location via GPS — no input needed.</div>
+          </div>
+          <div class="how-step reveal d1">
+            <div class="how-step-top">
+              <div class="how-step-n">02</div>
+            </div>
+            <div class="how-step-title">Explore places</div>
+            <div class="how-step-desc">Browse tourist spots, filter by type — historic, nature, cultural, fun — and discover hidden gems nearby.</div>
+          </div>
+          <div class="how-step reveal d2">
+            <div class="how-step-top">
+              <div class="how-step-n">03</div>
+            </div>
+            <div class="how-step-title">Chat &amp; plan</div>
+            <div class="how-step-desc">Ask Lakbay Assistant about food, transport, safety, and budget. It knows the live weather for your city.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WEATHER SHOWCASE -->
+    <section id="weather">
+      <div class="weather-showcase">
+        <div class="ws-text reveal">
+          <div class="ws-eyebrow">Live weather</div>
+          <h2 class="ws-h2">Always know before you go</h2>
+          <p class="ws-p">Real-time weather for any Philippine city, powered by OpenWeatherMap. Not estimates — actual live data.</p>
+          <div class="ws-items">
+            <div class="ws-item">
+              <div>
+                <div class="ws-item-title">Temperature + Feels Like</div>
+                <div class="ws-item-desc">Actual and perceived temperature side by side, updated live.</div>
+              </div>
+            </div>
+            <div class="ws-item">
+              <div>
+                <div class="ws-item-title">Wind &amp; Air Quality</div>
+                <div class="ws-item-desc">Wind speed, direction, and full AQI breakdown by pollutant type.</div>
+              </div>
+            </div>
+            <div class="ws-item">
+              <div>
+                <div class="ws-item-title">5-Day Forecast</div>
+                <div class="ws-item-desc">Plan ahead with daily high/low temps and weather conditions.</div>
+              </div>
+            </div>
+            <div class="ws-item">
+              <div>
+                <div class="ws-item-title">Sun Arc Animation</div>
+                <div class="ws-item-desc">Live sunrise-to-sunset arc so you know exactly when golden hour hits.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wc-outer reveal d1">
+          <div class="wc-photo">
+            <img src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=700&q=80" alt="Manila" loading="lazy" />
+            <div class="wc-photo-overlay"></div>
+            <div class="wc-photo-city">Manila</div>
+            <div class="wc-photo-country">PH · Live</div>
+          </div>
+          <div class="wc-body">
+            <div class="wc-row1">
+              <div class="wc-temp">32<small>°C</small></div>
+              <div class="wc-right">
+                <div class="wc-cond">⛅ Partly Cloudy</div>
+                <div class="wc-feels">Feels like 36°C</div>
+              </div>
+            </div>
+            <div class="wc-divider"></div>
+            <div class="wc-pills">
+              <div class="wc-pill"><small>Humidity</small>78%</div>
+              <div class="wc-pill"><small>Wind</small>18 km/h NE</div>
+              <div class="wc-pill"><small>AQI</small>Good</div>
+              <div class="wc-pill"><small>Vis.</small>8.0 km</div>
+            </div>
+            <div class="wc-fc">
+              <div class="wc-fc-day">
+                <div class="wcd-l">Mon</div>
+                <div class="wcd-i">🌤️</div>
+                <div class="wcd-t"><span>33°</span>/27°</div>
+              </div>
+              <div class="wc-fc-sep"></div>
+              <div class="wc-fc-day">
+                <div class="wcd-l">Tue</div>
+                <div class="wcd-i">🌧️</div>
+                <div class="wcd-t"><span>29°</span>/24°</div>
+              </div>
+              <div class="wc-fc-sep"></div>
+              <div class="wc-fc-day">
+                <div class="wcd-l">Wed</div>
+                <div class="wcd-i">⛈️</div>
+                <div class="wcd-t"><span>27°</span>/23°</div>
+              </div>
+              <div class="wc-fc-sep"></div>
+              <div class="wc-fc-day">
+                <div class="wcd-l">Thu</div>
+                <div class="wcd-i">☀️</div>
+                <div class="wcd-t"><span>34°</span>/28°</div>
+              </div>
+              <div class="wc-fc-sep"></div>
+              <div class="wc-fc-day">
+                <div class="wcd-l">Fri</div>
+                <div class="wcd-i">🌤️</div>
+                <div class="wcd-t"><span>32°</span>/26°</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+      <div class="cta-bg"></div>
+      <div class="cta-overlay"></div>
+      <div class="cta-content reveal">
+        <div class="cta-label">Ready when you are</div>
+        <h2 class="cta-h2">Your next trip starts here.</h2>
+        <div class="cta-actions">
+          <a class="btn-hero-primary">
+            <i class="fa-solid fa-compass" style="font-size: 0.78rem;"></i>
+            Launch Lakbay
+          </a>
+          <a class="btn-hero-ghost" href="#how">Learn More</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand">
+            <span class="footer-wordmark">Lakbay</span>
+          </div>
+          <div class="footer-tagline">A travel and weather explorer built for Filipino travelers. Free, no sign-up, open now.</div>
+        </div>
+        <div class="footer-links"></div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-copy">© 2025 Lakbay — Built for Filipino travelers</div>
+        <div class="footer-powered">
+          <span class="footer-pow-item">Explore</span>
+          <span class="footer-pow-item">Weather</span>
+          <span class="footer-pow-item">AI Chat</span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="landing.js"></script>
+  </body>
+</html>

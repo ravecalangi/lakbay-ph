@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lakbay — Travel & Weather</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+
+    <!-- LOADING OVERLAY -->
+    <div id="loading-overlay">
+      <div class="lo-spinner"></div>
+      <p class="lo-text">Loading...</p>
+    </div>
+
+    <div id="error-toast"></div>
+
+    <!-- SETTINGS OVERLAY -->
+    <div class="settings-overlay" id="settings-overlay">
+      <div class="settings-backdrop" onclick="closeSettings()"></div>
+      <div class="settings-drawer">
+        <div class="settings-title">
+          <i class="fa-solid fa-gear"></i> Settings
+        </div>
+        <div class="settings-section">
+          <div class="settings-label">Appearance</div>
+          <div class="settings-row">
+            <div>
+              <div class="settings-row-label">Dark Mode</div>
+              <div class="settings-row-sub">Switch to dark theme</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="dark-mode-toggle" onchange="handleThemeToggle(this)" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+        <button class="settings-close" onclick="closeSettings()">✕ Close Settings</button>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+      <div class="sidebar-nav">
+        <button class="nav-item active" title="Explore" onclick="switchTab('explore', this)">
+          <i class="fa-solid fa-map-location-dot"></i>
+        </button>
+        <button class="nav-item" title="Weather" onclick="switchTab('weather', this)">
+          <i class="fa-solid fa-cloud"></i>
+        </button>
+        <div class="nav-divider"></div>
+        <button class="nav-item" title="Settings" onclick="openSettings()">
+          <i class="fa-solid fa-gear"></i>
+        </button>
+      </div>
+    </nav>
+
+    <!-- APP SHELL -->
+    <div class="app-shell" id="content" style="opacity: 0; transition: opacity 0.5s ease;">
+
+      <!-- TOPBAR -->
+      <div class="topbar">
+        <div class="app-brand">
+          <div class="brand-name">Lakbay</div>
+          <div class="brand-sub">Travel & Weather Explorer</div>
+        </div>
+        <form class="search-form" id="search-form">
+          <span style="color: var(--muted); font-size: 0.8rem;">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </span>
+          <input
+            class="search-input"
+            id="search-input"
+            type="text"
+            placeholder="Enter city (e.g. Manila)"
+            autocomplete="off"
+          />
+          <button class="search-btn" id="search-btn" type="submit">Explore</button>
+        </form>
+        <div class="tab-row">
+          <button class="tab-btn active" id="tab-explore-btn" onclick="switchTab('explore', null)">
+            <i class="fa-solid fa-map-location-dot"></i> Explore
+          </button>
+          <button class="tab-btn" id="tab-weather-btn" onclick="switchTab('weather', null)">
+            <i class="fa-solid fa-cloud"></i> Weather
+          </button>
+        </div>
+      </div>
+
+      <!-- ── EXPLORE TAB ── -->
+      <div class="tab-panel active" id="tab-explore">
+        <div class="explore-layout">
+
+          <!-- Main content -->
+          <div class="explore-main">
+            <div class="explore-header-area">
+              <div class="explore-top-row">
+                <span class="explore-title" id="explore-title">Discover Places</span>
+                <span class="explore-count" id="explore-count"></span>
+              </div>
+              <div class="filter-chips" id="filter-chips">
+                <button class="filter-chip active" data-kind="interesting_places">All</button>
+                <button class="filter-chip" data-kind="cultural">Cultural</button>
+                <button class="filter-chip" data-kind="historic">Historic</button>
+                <button class="filter-chip" data-kind="natural">Nature</button>
+                <button class="filter-chip" data-kind="religion">Religion</button>
+                <button class="filter-chip" data-kind="amusements">Fun</button>
+              </div>
+              <div class="explore-status" id="explore-status">Search a city above to start exploring.</div>
+            </div>
+            <div class="place-grid-wrap">
+              <div class="place-grid" id="place-grid">
+                <div class="explore-empty">
+                  <div class="ei">🌏</div>
+                  <p>Search for a city to discover amazing tourist spots!</p>
+                </div>
+              </div>
+              <div class="load-more-wrap" id="load-more-wrap" style="display: none;">
+                <button class="load-more-btn" id="load-more-btn">Load more places</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Explore sidebar -->
+          <aside class="explore-sidebar">
+            <div class="mini-weather">
+              <div class="mw-label">Current Weather</div>
+              <div class="mw-placeholder" id="mw-placeholder">Search a city ☁️</div>
+              <div id="mw-content" style="display: none;">
+                <div class="mw-row">
+                  <div class="mw-icon" id="mw-icon">⛅</div>
+                  <div>
+                    <div class="mw-temp" id="mw-temp">--°C</div>
+                    <div class="mw-desc" id="mw-desc">--</div>
+                  </div>
+                </div>
+                <div class="mw-pills">
+                  <div class="mw-pill"><span>Feels</span><span id="mw-feels">--</span></div>
+                  <div class="mw-pill"><span>Humid</span><span id="mw-hum">--</span></div>
+                  <div class="mw-pill"><span>Wind</span><span id="mw-wind">--</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="sun-mini">
+              <div class="sun-mini-title">Sun Position</div>
+              <div class="arc-svg-wrap">
+                <svg viewBox="0 0 220 80" fill="none">
+                  <path d="M 10 70 Q 110 -5 210 70" stroke="var(--border)" stroke-width="2" fill="none" stroke-dasharray="4 4" />
+                  <path id="mini-arc-progress" d="M 10 70 Q 110 -5 210 70" stroke="var(--orange)" stroke-width="2.5" fill="none" stroke-dasharray="240" stroke-dashoffset="240" />
+                  <circle cx="10" cy="70" r="4" fill="var(--teal)" opacity="0.6" />
+                  <circle cx="210" cy="70" r="4" fill="var(--orange)" opacity="0.6" />
+                  <circle id="mini-sun-glow" cx="110" cy="15" r="10" fill="var(--orange)" opacity="0.2" />
+                  <circle id="mini-sun-dot" cx="110" cy="15" r="7" fill="var(--orange)" />
+                  <line x1="0" y1="72" x2="220" y2="72" stroke="var(--border)" stroke-width="1" />
+                </svg>
+              </div>
+              <div class="sun-mini-times">
+                <div>
+                  <div class="smt-label">Sunrise</div>
+                  <div class="smt-val" id="mini-sunrise">--</div>
+                </div>
+                <div style="text-align: right;">
+                  <div class="smt-label">Sunset</div>
+                  <div class="smt-val" id="mini-sunset">--</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="fc-mini-title">5-Day Forecast</div>
+            <div class="fc-mini-list" id="fc-mini-list">
+              <div style="font-size: 0.68rem; color: var(--muted); padding: 6px 0;">No forecast yet.</div>
+            </div>
+          </aside>
+
+          <!-- Chat toggle button -->
+          <button class="chat-toggle-btn" id="chat-toggle-btn" title="Lakbay Assistant" onclick="toggleChat()">
+            <span class="toggle-icon-default"><i class="fa-brands fa-android fa-bounce"></i></span>
+            <span class="toggle-icon-close"><i class="fa-solid fa-xmark"></i></span>
+            <span class="chat-unread"></span>
+          </button>
+
+          <!-- Chat panel -->
+          <div class="chat-panel" id="chat-panel">
+            <div class="chat-header">
+              <div class="chat-header-top">
+                <div class="chat-avatar"><i class="fa-brands fa-android"></i></div>
+                <div>
+                  <div class="chat-name">Lakbay Assistant</div>
+                  <div class="chat-status">
+                    <div class="chat-dot"></div>
+                    <span class="chat-status-txt">Online — powered by AI</span>
+                  </div>
+                </div>
+                <button class="chat-close" onclick="toggleChat()">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+            </div>
+            <div class="chat-suggestions" id="chat-suggestions">
+              <button class="chat-pill" onclick="sendSuggestion(this)">Panahon ngayon?</button>
+              <button class="chat-pill" onclick="sendSuggestion(this)">Local food to try</button>
+              <button class="chat-pill" onclick="sendSuggestion(this)">Safety tips</button>
+              <button class="chat-pill" onclick="sendSuggestion(this)">Budget advice</button>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+              <div class="msg bot">
+                <div class="msg-avatar bot"><i class="fa-brands fa-android"></i></div>
+                <div class="msg-bubble">
+                  Kumusta! I'm your <strong>Lakbay Assistant</strong> 🌏<br /><br />
+                  Search a city to get started — I can help with weather, food, transport, culture, and more.
+                </div>
+              </div>
+            </div>
+            <div class="chat-input-wrap">
+              <div class="chat-input-row">
+                <textarea class="chat-input" id="chat-input" placeholder="Ask about your destination…" rows="1"></textarea>
+                <button class="chat-send" id="chat-send-btn" onclick="handleChat()">
+                  <i class="fa-solid fa-paper-plane"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── WEATHER TAB ── -->
+      <div class="tab-panel" id="tab-weather">
+        <div class="weather-layout">
+
+          <!-- Weather main -->
+          <div class="weather-main">
+            <div class="w-location-bar" id="w-location-bar" style="display: none; flex-shrink: 0; align-items: center; gap: 8px; padding: 2px 0 4px;">
+              <span style="font-size: 0.75rem; color: var(--muted);">📍</span>
+              <span id="w-location-label" style="font-size: 0.85rem; font-weight: 700; color: var(--text);">--</span>
+              <span id="w-location-sub" style="font-size: 0.72rem; color: var(--muted); margin-left: 2px;"></span>
+            </div>
+            <div class="w-top-cards">
+              <article class="weather-card">
+                <svg class="wc-cloud" viewBox="0 0 140 88" fill="none">
+                  <ellipse cx="70" cy="54" rx="62" ry="30" fill="white" opacity="0.5" />
+                  <ellipse cx="48" cy="44" rx="35" ry="24" fill="white" opacity="0.4" />
+                  <ellipse cx="88" cy="40" rx="30" ry="22" fill="white" opacity="0.35" />
+                  <circle cx="70" cy="14" r="18" fill="white" opacity="0.25" />
+                </svg>
+                <div>
+                  <div class="wc-top">
+                    <div class="wc-icon-wrap" id="wc-icon">⛅</div>
+                    <div>
+                      <div class="wc-label">Weather</div>
+                      <div class="wc-sub" id="wc-feels">Feels like --°C</div>
+                    </div>
+                  </div>
+                  <div class="wc-temp" id="wc-temp">--<em>°C</em></div>
+                  <div class="wc-desc" id="wc-desc">Loading...</div>
+                </div>
+                <div class="wc-pills">
+                  <div class="wc-pill"><em>Pressure</em><span id="wc-pressure">--</span></div>
+                  <div class="wc-pill"><em>Visibility</em><span id="wc-vis">--</span></div>
+                  <div class="wc-pill"><em>Humidity</em><span id="wc-hum">--</span></div>
+                </div>
+              </article>
+
+              <article class="aqi-card">
+                <div class="ac-kite">🪁</div>
+                <div>
+                  <div class="ac-top">
+                    <div class="ac-icon-wrap">💨</div>
+                    <div>
+                      <div class="ac-label">Air Quality</div>
+                      <div class="ac-sub" id="aqi-pollutant">Main pollutant: --</div>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="aqi-number" id="aqi-number">--</span>
+                    <span class="aqi-badge" id="aqi-badge">AQI</span>
+                  </div>
+                  <div class="aqi-wind" id="aqi-wind">Wind: --</div>
+                </div>
+                <div class="aqi-scale">
+                  <div class="aqi-bar-wrap">
+                    <div class="aqi-bar-fill"></div>
+                    <div class="aqi-bar-cursor" id="aqi-cursor" style="left: 5%;"></div>
+                  </div>
+                  <div class="aqi-labels">
+                    <span>Good</span>
+                    <span>Standard</span>
+                    <span>Hazardous</span>
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <div class="charts-stack">
+              <div class="chart-card">
+                <div class="chart-top">
+                  <span class="chart-icon">🌡️</span>
+                  <h2 class="chart-title-text">Temperature (next 24h)</h2>
+                </div>
+                <div class="chart-wrap"><canvas id="tempChart"></canvas></div>
+              </div>
+              <div class="chart-card">
+                <div class="chart-top">
+                  <span class="chart-icon">🌧️</span>
+                  <h2 class="chart-title-text">Rainfall (next 24h)</h2>
+                </div>
+                <div class="chart-wrap"><canvas id="rainChart"></canvas></div>
+              </div>
+              <div class="chart-card">
+                <div class="chart-top">
+                  <span class="chart-icon">💨</span>
+                  <h2 class="chart-title-text">Wind speed (next 24h)</h2>
+                </div>
+                <div class="chart-wrap"><canvas id="windChart"></canvas></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Weather sidebar -->
+          <aside class="weather-side">
+            <div class="ws-loc-header">
+              <div>
+                <div class="ws-city" id="ws-city">--</div>
+                <div class="ws-country" id="ws-country">📍 --</div>
+              </div>
+              <div class="ws-temp-big" id="ws-temp-big">--°</div>
+            </div>
+            <div class="sun-arc-wrap">
+              <div class="sun-arc-title">Sun Position</div>
+              <div class="arc-svg-wrap">
+                <svg viewBox="0 0 220 90" fill="none">
+                  <path d="M 10 80 Q 110 -10 210 80" stroke="var(--border)" stroke-width="2" fill="none" stroke-dasharray="4 4" />
+                  <path id="arc-progress" d="M 10 80 Q 110 -10 210 80" stroke="var(--orange)" stroke-width="2.5" fill="none" stroke-dasharray="260" stroke-dashoffset="260" />
+                  <circle cx="10" cy="80" r="5" fill="var(--teal)" opacity="0.6" />
+                  <circle cx="210" cy="80" r="5" fill="var(--orange)" opacity="0.6" />
+                  <circle id="sun-dot-glow" cx="110" cy="20" r="12" fill="var(--orange)" opacity="0.2" />
+                  <circle id="sun-dot" cx="110" cy="20" r="8" fill="var(--orange)" />
+                  <line x1="0" y1="82" x2="220" y2="82" stroke="var(--border)" stroke-width="1" />
+                </svg>
+              </div>
+              <div class="sun-times-row">
+                <div>
+                  <div class="sun-time-label">Sunrise</div>
+                  <div class="sun-time-val" id="rt-sunrise">--</div>
+                </div>
+                <div style="text-align: right;">
+                  <div class="sun-time-label">Sunset</div>
+                  <div class="sun-time-val" id="rt-sunset">--</div>
+                </div>
+              </div>
+            </div>
+            <div class="fc-title">5-Day Forecast</div>
+            <div class="fc-list" id="fc-list"></div>
+            <button class="goto-explore" onclick="switchTab('explore', null)">Explore Tourist Spots →</button>
+          </aside>
+
+        </div>
+      </div>
+
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
